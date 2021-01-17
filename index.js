@@ -164,9 +164,9 @@ function handlePostback(sender_psid, received_postback) {
   if (payload === 'yes') {
     if (i == 1 || i == 3 || i == 5)
       severity += 1;
-    elif (i == 0 || i == 4 || i == 7) 
+    else if (i == 0 || i == 4 || i == 7) 
       severity += 2;
-    elif (i == 2 || i == 6 || i == 8)
+    else if (i == 2 || i == 6 || i == 8)
       severity += 4;
   } else if (payload === 'no')
   
