@@ -10,9 +10,6 @@ const
 // Sets server port and logs message on success
 app.listen(process.env.PORT || 1337, () => console.log('webhook is listening'));
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/maps.html'));
-});
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {  
@@ -44,7 +41,9 @@ app.post('/webhook', (req, res) => {
     res.send('hi');
   });
 
-
+app.get('/', function (req, res) {
+  res.sendFile(path.join(__dirname + '/maps.html'));
+});
 
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
