@@ -11,10 +11,6 @@ const
 var path = require('path');
 const { send } = require('process');
 
-let i = 0;
-let severity = 0;
-let count = 9;
-
 app.use(express.json()); //Used to parse JSON bodies
 
 app.use(express.static("public"));
@@ -37,8 +33,13 @@ function callSendAPI(sender_psid, response) {
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {
 
-
   let body = req.body;
+  let i, severity;
+
+  if (typeof i == 'undefined'){
+    i = 0;
+    severity = 0;
+  }
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -58,9 +59,9 @@ app.post('/webhook', (req, res) => {
       // Check if the event is a message or postback and
       // pass the event to the appropriate handler function
       if (webhook_event.message) {
-            handleMessage(sender_psid, webhook_event.message)
+            handleMessage(sender_psid, webhook_event.message, i)
       } else if (webhook_event.postback) {
-        handlePostback(sender_psid, webhook_event.postback);
+        handlePostback(sender_psid, webhook_event.postback, i, severity);
     }
     });
 
@@ -139,7 +140,7 @@ function callSendAPI(sender_psid, response) {
   }); 
 }
 
-function handlePostback(sender_psid, received_postback) {
+function handlePostback(sender_psid, received_postback, i, severity) {
   let response;
   
   let payload = received_postback.payload;
@@ -165,26 +166,26 @@ function handlePostback(sender_psid, received_postback) {
         "text": `It sounds like you are feeling okay. Continue to monitor for symptoms and see what you can do to stay safe on the 
         CDC website: https://www.cdc.gov/coronavirus/2019-ncov/index.html`
       }
-      handleMessage(sender_psid, response)
+      handleMessage(sender_psid, response, i)
     }else if (i > 3 && i <= 8){
       response = {
         "text": `You may have COVID-19. We suggest you stay at home and rest, and if your symptoms worsen, seek medical attention.`
       }
-      handleMessage(sender_psid, response)
+      handleMessage(sender_psid, response, i)
     }else{
       response = {
         "text": `We're sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
         hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
       }
-      handleMessage(sender_psid, response)
+      handleMessage(sender_psid, response, i)
     }
     i++;
   }
   
-  handleMessage(sender_psid, "")
+  handleMessage(sender_psid, "", i)
 }
 
-function handleMessage(sender_psid, received_message) {
+function handleMessage(sender_psid, received_message, i) {
   let response;
   let titles = ["Do you feel fatigued?", "Are you experiencing headaches?", "Are you having difficulty speaking or moving?",
   "Do you have a diminished sense of taste or smell?", "Are you feverish?", "Do you have a sore throat?", 
