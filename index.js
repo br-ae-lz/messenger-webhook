@@ -11,7 +11,7 @@ const
 var path = require('path');
 const { send } = require('process');
 
-let count = 4;
+let count = 10;
 let i = 0;
 let severity = 0;
 
@@ -171,6 +171,26 @@ function handlePostback(sender_psid, received_postback) {
   } else if (payload === 'no'){
 
   }
+
+  if (i >= count){
+    if (i <= 3){
+      response = {
+        "text": `go out (safely)`
+      }
+      handleMessage(sender_psid, response)
+    }else if (i > 3 && i <= 8){
+      response = {
+        "text": `stay home`
+      }
+      handleMessage(sender_psid, response)
+    }else{
+      response = {
+        "text": `go hospital`
+      }
+      handleMessage(sender_psid, response)
+    }
+    i++;
+  }
   
   handleMessage(sender_psid, "")
 }
@@ -178,8 +198,10 @@ function handlePostback(sender_psid, received_postback) {
 function handleMessage(sender_psid, received_message) {
   let response;
   let titles = ["Do you feel fatigued?", "Are you experiencing headaches?", "Are you having difficulty speaking or moving?",
-"Do you have a diminished sense of taste or smell?", "Are you feverish?"];
-
+  "Do you have a diminished sense of taste or smell?", "Are you feverish?", "Do you have a sore throat?", 
+  "Do you feel pain or pressure in your chest?", "Do you have a dry cough?", "Are you having difficulty breathing?"];
+  
+  if (received_message == ""){
     response = {
       "attachment": {
         "type": "template",
@@ -204,7 +226,12 @@ function handleMessage(sender_psid, received_message) {
         }
       }
     } 
-  
+  }
+  else{
+    response = {
+      "text": `You sent the message: "${received_message.text}`
+    }
+  }
   // Send the response message
   callSendAPI(sender_psid, response);    
 }
