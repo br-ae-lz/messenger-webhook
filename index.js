@@ -11,9 +11,9 @@ const
 var path = require('path');
 const { send } = require('process');
 
-let count = 9;
 let i = 0;
 let severity = 0;
+let count = 9;
 
 app.use(express.json()); //Used to parse JSON bodies
 
@@ -36,6 +36,7 @@ function callSendAPI(sender_psid, response) {
 
 // Creates the endpoint for our webhook 
 app.post('/webhook', (req, res) => {
+
 
   let body = req.body;
 
@@ -114,23 +115,6 @@ app.get('/webhook', (req, res) => {
 app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
 
 
-function handleMessage(sender_psid, received_message) {
-
-  let response;
-
-  // Check if the message contains text
-  if (received_message.text) {    
-
-    // Create the payload for a basic text message
-    response = {
-      "text": `You sent the message: "${received_message.text}". Now send me an image!`
-    }
-  }  
-  
-  // Sends the response message
-  callSendAPI(sender_psid, response);    
-}
-
 function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
@@ -189,7 +173,7 @@ function handlePostback(sender_psid, received_postback) {
       handleMessage(sender_psid, response)
     }else{
       response = {
-        "text": `Sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
+        "text": `We're sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
         hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
       }
       handleMessage(sender_psid, response)
@@ -237,7 +221,7 @@ function handleMessage(sender_psid, received_message) {
       "text": `${received_message.text}`
     }
   }else{
-    
+
   }
   // Send the response message
   callSendAPI(sender_psid, response);    
