@@ -168,7 +168,9 @@ function handlePostback(sender_psid, received_postback) {
       severity += 2;
     else if (i == 2 || i == 6 || i == 8)
       severity += 4;
-  } else if (payload === 'no')
+  } else if (payload === 'no'){
+
+  }
   
   handleMessage(sender_psid, "")
 }
