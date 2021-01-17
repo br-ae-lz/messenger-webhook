@@ -37,10 +37,6 @@ app.post('/webhook', (req, res) => {
   
   });
 
-  app.get('/', function (req, res) {
-    res.send('hi');
-  });
-
 app.get('/', function (req, res) {
   res.sendFile(path.join(__dirname + '/maps.html'));
 });
