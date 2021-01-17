@@ -36,11 +36,10 @@ function callSendAPI(sender_psid, response) {
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
-  let i, severity;
 
   if (typeof i == 'undefined'){
-    i = 0;
-    severity = 0;
+    let i = 0;
+    let severity = 0;
     console.log("still undef");
   }
 
