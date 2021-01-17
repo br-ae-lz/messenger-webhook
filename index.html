@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="css/styles.css" media="screen" />
+
+</head>
+
+<body>
+
+  <!-- Load Facebook SDK for JavaScript -->
+  <div id="fb-root"></div>
+  <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        xfbml            : true,
+        version          : 'v9.0'
+      });
+    };
+
+    (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    if (d.getElementById(id)) return;
+    js = d.createElement(s); js.id = id;
+    js.src = 'https://connect.facebook.net/en_US/sdk/xfbml.customerchat.js';
+    fjs.parentNode.insertBefore(js, fjs);
+  }(document, 'script', 'facebook-jssdk'));</script>
+
+  <!-- Your Chat Plugin code -->
+  <div class="fb-customerchat"
+    attribution=setup_tool
+    page_id="105541018189270"
+    theme_color="#E26F6F"
+    logged_in_greeting="Hi! :)"
+    logged_out_greeting="Hi! :)">
+  </div>
+
+  <div class="App">
+    <h1 class="welcome">Welcome to Healthtech!</h1>
+    <div class="background-top"></div>
+    <div class="doctors">
+
+    </div>
+
+    <p class="button-click">Click the button below to chat with our</p>
+    <p class="button-click"> bot and find the best hospital near you</p>
+    <div class="button">
+      <div class="fb-customerchat" page_id="<PAGE_ID>">
+        <!-- <a href="maps.html" class="button-text"> -->
+
+        <!-- </a> -->
+      </div>
+
+    </div>
+    <div class="background-bottom"></div>
+  </div>
+
+</body>
+
+</html>
