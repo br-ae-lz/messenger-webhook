@@ -175,17 +175,19 @@ function handlePostback(sender_psid, received_postback) {
   if (i >= count){
     if (i <= 3){
       response = {
-        "text": `go out (safely)`
+        "text": `It sounds like you are feeling okay. Continue to monitor for symptoms and see what you can do to stay safe on the 
+        CDC website: https://www.cdc.gov/coronavirus/2019-ncov/index.html`
       }
       handleMessage(sender_psid, response)
     }else if (i > 3 && i <= 8){
       response = {
-        "text": `stay home`
+        "text": `You may have COVID-19. We suggest you stay at home and rest, and if your symptoms worsen, seek medical attention.`
       }
       handleMessage(sender_psid, response)
     }else{
       response = {
-        "text": `go hospital`
+        "text": `Sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
+        hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
       }
       handleMessage(sender_psid, response)
     }
@@ -229,7 +231,7 @@ function handleMessage(sender_psid, received_message) {
   }
   else{
     response = {
-      "text": `You sent the message: "${received_message.text}`
+      "text": `${received_message.text}`
     }
   }
   // Send the response message
