@@ -34,9 +34,6 @@ app.post('/webhook', (req, res) => {
 
   let body = req.body;
 
-  console.log(":)))))))))))))))))))))))))");
-  console.log(body);
-
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
 
@@ -82,7 +79,8 @@ app.post('/webhook', (req, res) => {
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
     if (webhook_event.message) {
-      handleMessage(sender_psid, webhook_event.message);        
+      handleMessage(sender_psid, webhook_event.message);
+      callSendAPI(sender_psid, "woah");        
     } else if (webhook_event.postback) {
       handlePostback(sender_psid, webhook_event.postback);
     }
