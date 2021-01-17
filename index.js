@@ -201,7 +201,7 @@ function handleMessage(sender_psid, received_message) {
   "Do you have a diminished sense of taste or smell?", "Are you feverish?", "Do you have a sore throat?", 
   "Do you feel pain or pressure in your chest?", "Do you have a dry cough?", "Are you having difficulty breathing?"];
   
-  if (received_message == ""){
+  if (received_message == "" || i == 0){
     response = {
       "attachment": {
         "type": "template",
