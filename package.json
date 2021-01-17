@@ -2,6 +2,6 @@
     "private": true,
     "workspaces": ["client", "server"],
     "scripts": { 
-        "start" : "yarn run" 
+        "start" : "yarn start" 
     } 
 }
