@@ -53,6 +53,7 @@ app.post('/webhook', (req, res) => {
     res.sendStatus(404);
   }
 
+    let webhook_event = entry.messaging[0];
     // Check if the event is a message or postback and
     // pass the event to the appropriate handler function
     if (webhook_event.message) {
