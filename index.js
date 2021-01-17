@@ -10,6 +10,10 @@ const
 
 var path = require('path');
 
+let count = 4;
+let i = 0;
+let severity = 0;
+
 app.use(express.json()); //Used to parse JSON bodies
 
 app.use(express.static("public"));
@@ -153,39 +157,47 @@ function callSendAPI(sender_psid, response) {
 function handlePostback(sender_psid, received_postback) {
   let response;
   
-  // Get the payload for the postback
   let payload = received_postback.payload;
 
-  // Set the response based on the postback payload
+
   if (payload === 'yes') {
-    response = { "text": "Thanks!" }
-  } else if (payload === 'no') {
-    response = { "text": "Oops, try sending another image." }
+    if (i == 1 || i == 3 || i == 5)
+      severity += 1;
+    elif (i == 0 || i == 4 || i == 7) 
+      severity += 2;
+    elif (i == 2 || i == 6 || i == 8)
+      severity += 4;
   }
-  // Send the message to acknowledge the postback
+    
+  } else if (payload === 'no') {
+    
+  }
+  
   callSendAPI(sender_psid, response);
 }
 
 function handleMessage(sender_psid, received_message) {
   let response;
-   
+  let titles = ["Do you feel fatigued?", "Are you experiencing headaches?", "Are you having difficulty speaking or moving?",
+"Do you have a diminished sense of taste or smell?", "Are you feverish?"];
+
     response = {
       "attachment": {
         "type": "template",
         "payload": {
           "template_type": "generic",
           "elements": [{
-            "title": "Is this the right picture?",
-            "subtitle": "Tap a button to answer.",
+            "title": titles[i++],
+            "subtitle": "Select a button to answer.",
             "buttons": [
               {
                 "type": "postback",
-                "title": "Yes!",
+                "title": "Yes",
                 "payload": "yes",
               },
               {
                 "type": "postback",
-                "title": "No!",
+                "title": "No",
                 "payload": "no",
               }
             ],
