@@ -11,7 +11,7 @@ const
 var path = require('path');
 const { send } = require('process');
 
-let count = 10;
+let count = 9;
 let i = 0;
 let severity = 0;
 
@@ -162,10 +162,13 @@ function handlePostback(sender_psid, received_postback) {
 
 
   if (payload === 'yes') {
+    // uncommon symptom
     if (i == 1 || i == 3 || i == 5)
       severity += 1;
+    // common symptom
     else if (i == 0 || i == 4 || i == 7) 
       severity += 2;
+    // severe symptom
     else if (i == 2 || i == 6 || i == 8)
       severity += 4;
   } else if (payload === 'no'){
@@ -229,10 +232,12 @@ function handleMessage(sender_psid, received_message) {
       }
     } 
   }
-  else{
+  else if (i == count){
     response = {
       "text": `${received_message.text}`
     }
+  }else{
+    
   }
   // Send the response message
   callSendAPI(sender_psid, response);    
