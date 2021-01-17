@@ -39,6 +39,7 @@ app.post('/webhook', (req, res) => {
   if (typeof i == 'undefined'){
     i = 0;
     severity = 0;
+    console.log("still undef");
   }
 
   // Checks this is an event from a page subscription
