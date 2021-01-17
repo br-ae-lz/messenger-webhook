@@ -3,13 +3,14 @@
 // Imports dependencies and set up http server
 const
   express = require('express'),
-  bodyParser = require('body-parser'),
-  app = express().use(bodyParser.json()); // creates express http server
+  // bodyParser = require('body-parser'),
+  app = express(); //Used to parse JSON bodies
 
 var path = require('path');
 
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
+app.use(express.json()); //Used to parse JSON bodies
+
+app.use(express.static("public"));
 
 
 // Creates the endpoint for our webhook 
@@ -74,3 +75,5 @@ app.get('/webhook', (req, res) => {
 
 });
 
+// Sets server port and logs message on success
+app.listen(process.env.PORT || 5000, () => console.log('webhook is listening'));
