@@ -30,7 +30,7 @@
   
   
   .doctors {
-    background: url(css/images/medecine.png);
+    background: url(./assets/medecine.png);
     padding-top: 30px;
     height: 300px;
     width: 500px;
