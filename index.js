@@ -36,7 +36,7 @@ app.post('/webhook', (req, res) => {
   });
 
   app.get('/', function (req, res) {
-    res.send('hello');
+    res.send('hi');
   });
 
 // Adds support for GET requests to our webhook
