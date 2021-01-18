@@ -215,11 +215,10 @@ function handleMessage(sender_psid, received_message) {
       }
     } 
   }
-  else if (i == count || i == -1){
+  else if (i == count){
     response = {
       "text": `${received_message.text}`
     }
-    i = -1;
   }else{
 
   }
