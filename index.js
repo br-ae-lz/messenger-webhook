@@ -12,6 +12,13 @@ var path = require('path');
 const { send } = require('process');
 
 const count = 9;
+let i = 0;
+let severity = 0;
+
+// temporary repeated use code; reset vars
+if (i < 0){
+  i = severity = 0;
+}
 
 app.use(express.json()); //Used to parse JSON bodies
 
@@ -36,12 +43,6 @@ function callSendAPI(sender_psid, response) {
 app.post('/webhook', (req, res) => {
 
   let body = req.body;
-
-  if (typeof i == 'undefined'){
-    let i = 0;
-    let severity = 0;
-    console.log("still undef");
-  }
 
   // Checks this is an event from a page subscription
   if (body.object === 'page') {
@@ -219,10 +220,11 @@ function handleMessage(sender_psid, received_message, i) {
       }
     } 
   }
-  else if (i == count){
+  else if (i == count || i == -1){
     response = {
       "text": `${received_message.text}`
     }
+    i = -1;
   }else{
 
   }
