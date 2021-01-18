@@ -14,6 +14,7 @@ const { send } = require('process');
 const count = 9;
 let i = 0;
 let severity = 0;
+console.log("i = 0");
 
 // temporary repeated use code; reset vars
 if (i < 0){
