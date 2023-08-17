@@ -12,11 +12,7 @@
     "url": "git+https://github.com/smthingwentwrong/messenger-webhook.git"
   },
   "author": "",
-<<<<<<< HEAD
-  "license": "ISC",
-=======
   "license": "MIT",
->>>>>>> master
   "bugs": {
     "url": "https://github.com/smthingwentwrong/messenger-webhook/issues"
   },
@@ -25,14 +21,9 @@
     "node": "14.x.x"
   },
   "dependencies": {
-<<<<<<< HEAD
-    "express": "^4.17.1",
-    "pg": "^8.5.1"
-=======
     "dotenv": "^16.3.1",
     "express": "^4.17.1",
     "pg": "^8.5.1",
     "request": "^2.88.2"
->>>>>>> master
   }
 }
