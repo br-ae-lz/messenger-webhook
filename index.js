@@ -13,7 +13,7 @@ const { send } = require('process');
 
 let i = 0;
 let severity = 0;
-let count = 9;
+const count = 9;
 const titles = ["Do you feel fatigued?", "Are you experiencing headaches?", "Are you having difficulty speaking or moving?",
 "Do you have a diminished sense of taste or smell?", "Are you feverish?", "Do you have a sore throat?", 
 "Do you feel pain or pressure in your chest?", "Do you have a dry cough?", "Are you having difficulty breathing?"];
@@ -126,27 +126,37 @@ function handlePostback(sender_psid, received_postback) {
 
   // If the user has a symptom, increment severity appropriately
   if (payload === 'yes') {
-    if (i == 1 || i == 3 || i == 5)         // uncommon symptom
-      severity += 1;
-    else if (i == 0 || i == 4 || i == 7)    // common symptom
-      severity += 2;
-    else if (i == 2 || i == 6 || i == 8)    // severe symptom
-      severity += 4;
+    switch (i) {
+      case 1:
+      case 3:
+      case 5:
+        severity += 1;    // uncommon symptom
+        break;
+      case 0:
+      case 4:
+      case 7:
+        severity += 2;    // common symptom
+        break;
+      case 2:
+      case 6:
+      case 8:
+        severity += 4;    // severe symptom
+    }
   } 
 
   if (i >= count){
-    if (i <= 3){
+    if (severity <= 3) {
       response = {
         "text": `It sounds like you are feeling okay. Continue to monitor for symptoms and see what you can do to stay safe on the 
         CDC website: https://www.cdc.gov/coronavirus/2019-ncov/index.html`
       }
       handleMessage(sender_psid, response)
-    }else if (i > 3 && i <= 8){
+    } else if (severity <= 8) {
       response = {
         "text": `You may have COVID-19. We suggest you stay at home and rest, and if your symptoms worsen, seek medical attention.`
       }
       handleMessage(sender_psid, response)
-    }else{
+    } else{
       response = {
         "text": `We're sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
         hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
