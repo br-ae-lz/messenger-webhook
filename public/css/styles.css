@@ -30,7 +30,7 @@
   
   
   .doctors {
-    background: url(./assets/medecine.png);
+    background: url(./assets/medicine.png);
     padding-top: 30px;
     height: 300px;
     width: 500px;
@@ -137,7 +137,7 @@
     }
     
     .doctors {
-      background: url(./assets/medecine.png);
+      background: url(./assets/medicine.png);
       padding-top: 30px;
       height: 280px;
       width: 480px;
