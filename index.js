@@ -1,16 +1,10 @@
-'use strict';
+import 'dotenv/config';
+import 'request';
+import express from 'express';
+import { join, dirname } from 'path';
+import { fileURLToPath } from 'url';
 
-// Imports dependencies and set up http server
-const dotenv = require('dotenv');
-const request = require('request');
-const
-  express = require('express'),
-  // bodyParser = require('body-parser'),
-  app = express(); //Used to parse JSON bodies
-
-const path = require('path');
-const { send } = require('process');
-
+// Init chatbot questions and state variables
 let i = 0;
 let severity = 0;
 const count = 9;
@@ -18,15 +12,21 @@ const titles = ["Do you feel fatigued?", "Are you experiencing headaches?", "Are
 "Do you have a diminished sense of taste or smell?", "Are you feverish?", "Do you have a sore throat?", 
 "Do you feel pain or pressure in your chest?", "Do you have a dry cough?", "Are you having difficulty breathing?"];
 
-app.use(express.json()); //Used to parse JSON bodies
 
-app.use(express.static("public"));
+// Parse JSON bodies and serve static site content w/ express
+let app = express(); 
+app.use(express.json());     
+app.use(express.static("public"));    
 
-dotenv.config();
+const __dirname = dirname(fileURLToPath(import.meta.url));
+app.get('/', function (req, res) {
+  res.sendFile(join(__dirname + '/index.html'));
+});
 
-// Stub webhook functions (in case they need to be defined)
-function handleMessage(sender_psid, received_message) { }
-function handlePostback(sender_psid, received_postback) { }
+// Sets server port and logs message on success
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => console.log(`Server is listening on port ${PORT}`));
+
 
 // Creates the endpoint for our webhook -- code and comments from messenger webhook example
 app.post('/webhook', (req, res) => {
@@ -61,10 +61,6 @@ app.post('/webhook', (req, res) => {
   }
 });
 
-app.get('/', function (req, res) {
-  res.sendFile(path.join(__dirname + '/index.html'));
-});
-
 // Adds support for GET requests to our webhook
 app.get('/webhook', (req, res) => {
   // Your verify token. Should be a random string.
@@ -92,9 +88,6 @@ app.get('/webhook', (req, res) => {
   }
 });
 
-// Sets server port and logs message on success
-app.listen(process.env.PORT || 5000, () => console.log(`webhook is listening`));
-
 function callSendAPI(sender_psid, response) {
   // Construct the message body
   let request_body = {
@@ -112,7 +105,7 @@ function callSendAPI(sender_psid, response) {
     "json": request_body
   }, (err, res, body) => {
     if (!err) {
-      console.log('message sent!')
+      console.log('Message sent!')
     } else {
       console.error("Unable to send message:" + err);
     }
@@ -156,7 +149,7 @@ function handlePostback(sender_psid, received_postback) {
         "text": `You may have COVID-19. We suggest you stay at home and rest, and if your symptoms worsen, seek medical attention.`
       }
       handleMessage(sender_psid, response)
-    } else{
+    } else {
       response = {
         "text": `We're sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
         hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
