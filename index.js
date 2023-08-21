@@ -112,6 +112,7 @@ function callSendAPI(sender_psid, response) {
   }); 
 }
 
+
 // Handle the user's responses to the chatbot
 function handlePostback(sender_psid, received_postback) {
   let response;
@@ -137,36 +138,37 @@ function handlePostback(sender_psid, received_postback) {
     }
   } 
 
+  // Send final evaluation based on final severity
   if (i >= count){
     if (severity <= 3) {
       response = {
         "text": `It sounds like you are feeling okay. Continue to monitor for symptoms and see what you can do to stay safe on the 
         CDC website: https://www.cdc.gov/coronavirus/2019-ncov/index.html`
       }
-      handleMessage(sender_psid, response)
     } else if (severity <= 8) {
       response = {
         "text": `You may have COVID-19. We suggest you stay at home and rest, and if your symptoms worsen, seek medical attention.`
       }
-      handleMessage(sender_psid, response)
     } else {
       response = {
         "text": `We're sorry you're not feeling well. Your symptoms may be those of COVID-19. We suggest you visit your nearest 
         hospital for a test. Use this link to find a hospital near you: https://hospital-locations.herokuapp.com/`
       }
-      handleMessage(sender_psid, response)
     }
+    handleMessage(sender_psid, response)
     i++;
   }
   
+  // Send the chatbot's next message
   handleMessage(sender_psid, "")
 }
 
-
+// Handle sending messages from the chatbot
 function handleMessage(sender_psid, received_message) {
   let response;
   
-  if (received_message == "" || i == 0){
+  // Send the next question in the sequence, the final evaluation, or nothing (once finished)
+  if (received_message == "" || i == 0) {
     response = {
       "attachment": {
         "type": "template",
@@ -197,6 +199,5 @@ function handleMessage(sender_psid, received_message) {
       "text": `${received_message.text}`
     }
   }
-  // Send the response message
   callSendAPI(sender_psid, response);    
 }
